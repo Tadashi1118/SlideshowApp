@@ -67,7 +67,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="0xm-19-wZb" id="gdd-4D-egZ"/>
                         <outlet property="buttonLabel" destination="GCf-1Z-fgc" id="tYS-KU-EE3"/>
+                        <outlet property="goButton" destination="RAA-IK-kq1" id="D4h-Vn-bpS"/>
                         <outlet property="imageView" destination="ecA-PA-JIZ" id="OBE-nd-Yft"/>
                     </connections>
                 </viewController>

@@ -11,6 +11,8 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var buttonLabel: UIButton!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var goButton: UIButton!
     
         var dispImageNo = 0
         var timer: Timer!
@@ -36,45 +38,51 @@ class ViewController: UIViewController {
             // 2秒ごとにカウントアップするメソッドの作成
             // if構文で、限界を超えた値は0に戻すメソッドの作成
             if dispImageNo < 2 {
-                        dispImageNo += 1
-                    } else {
-                        dispImageNo = 0
-                    }
-                self.dispImage()
+                dispImageNo += 1
+            } else {
+                dispImageNo = 0
             }
+                self.dispImage()
+        }
     
         @IBAction func startTimer(_ sender: Any) {
             if(buttonLabel.titleLabel!.text == "再生" && self.timer == nil)  {
-                        self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(countUp), userInfo: nil, repeats: true)
-                        self.buttonLabel.setTitle("停止", for: .normal)
-                } else {
-                        self.timer.invalidate()  // 現在のタイマーを破棄する
-                        self.buttonLabel.setTitle("再生", for: .normal)
-                        self.timer = nil
+                self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(countUp), userInfo: nil, repeats: true)
+                self.buttonLabel.setTitle("停止", for: .normal)
+                self.backButton.isEnabled = false
+                self.goButton.isEnabled = false
+            } else {
+                self.timer.invalidate()  // 現在のタイマーを破棄する
+                self.buttonLabel.setTitle("再生", for: .normal)
+                self.backButton.isEnabled = true
+                self.goButton.isEnabled = true
+                self.timer = nil
                 }
             }
     
         @IBAction func goTimer(_ sender: Any) {
             if self.timer == nil {
-                    countUp()
+                countUp()
                 }
-                self.dispImage()
+            self.dispImage()
             }
     
         @IBAction func returnTimer(_ sender: Any) {
             if self.timer == nil {
-                    countUp()
+                countUp()
                 }
-                self.dispImage()
+            self.dispImage()
             }
 
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {  // 2ページ目に渡すメソッド
             let  expansionView: ExpansionView = segue.destination as! ExpansionView
             expansionView.image = UIImage(named: "photo\(dispImageNo).jpg")
+            self.timer.invalidate()
             }
     
             @IBAction func unwind(_ segue: UIStoryboardSegue) {
                 // 他の画面から segue を使って戻ってきた時に呼ばれる
+            self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(countUp), userInfo: nil, repeats: true)
             }
     
     }
